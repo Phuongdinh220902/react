@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const DangNhap = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword] = useState(false);
 
     const handleLogin = () => {
         // Xử lý đăng nhập ở đây, có thể sử dụng email và password
@@ -60,7 +60,7 @@ const DangNhap = (props) => {
                                 <label>Password</label>
                             </div>
 
-                            <a className="login-qmk">Quên mật khẩu?</a>
+                            {/* <a className="login-qmk">Quên mật khẩu?</a> */}
                             <button
                                 type="submit"
                                 className="btn-submit-login"

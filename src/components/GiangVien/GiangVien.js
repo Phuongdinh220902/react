@@ -1,30 +1,140 @@
-// const User = (props) => {
-//     return (
-//         <div>user</div>
-//     )
-// }
-
-// export default User;
-
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 // import { useParams } from "react-router-dom";
 // import * as XLSX from "xlsx";
 import { format } from "date-fns";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import {
     faPenToSquare,
-    // faDownload,
+    faFileImport,
+    faUserPlus,
     // faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import {
     laydsgv
 } from "../../services/apiService";
 
+
+
+function Example() {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const [tenGV, setTen] = useState("");
+    const [email, setEmail] = useState("");
+    const [sdt, setSdt] = useState("");
+    const [ngaysinh, setNgaysinh] = useState("");
+    const [gioitinh, setGioitinh] = useState("Nữ");
+    const [image, setImage] = useState("");
+    const [previewImage, setPreviewImage] = useState("");
+
+    const handleUpLoadImage = (event) => {
+        if (event.target && event.target.files && event.target.files[0]) {
+            setPreviewImage(URL.createObjectURL(event.target.files[0]))
+            setImage(event.target.files[0])
+        } else {
+            // setPreviewImage("")
+        }
+    }
+
+    return (
+        <>
+            <Button variant="primary" onClick={handleShow} className="btn-lg bt-create">
+                <FontAwesomeIcon icon={faUserPlus} /> Thêm
+            </Button>
+
+
+            <Modal show={show} onHide={handleClose}
+                size="xl"
+                backdrop='static'
+                className="modal-add">
+                <Modal.Header closeButton>
+                    <Modal.Title>Thêm mới giảng viên</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <form className="row g-3">
+                        <div className="col-12">
+                            <label className="form-label">Tên Giảng Viên</label>
+                            <input type="text" className="form-control" value={tenGV}
+                                onChange={(event) => setTen(event.target.value)} />
+                        </div>
+                        <div className="col-12">
+                            <label className="form-label">Email</label>
+                            <input type="email" className="form-control" value={email}
+                                onChange={(event) => setEmail(event.target.value)} />
+                        </div>
+                        <div className="col-12">
+                            <label className="form-label">Số điện thoại</label>
+                            <input type="text" className="form-control" value={sdt}
+                                onChange={(event) => setSdt(event.target.value)} />
+                        </div>
+                        <div className="col-12">
+                            <label className="form-label">Ngày sinh</label>
+                            <input type="date" className="form-control" value={ngaysinh}
+                                onChange={(event) => setNgaysinh(event.target.value)} />
+                        </div>
+                        <div className="col-md-4">
+                            <label className="form-label">Giới Tính</label>
+                            <select className="form-select"
+                                onChange={(event) => setGioitinh(event.target.value)}>
+                                <option value="Nam">Nam</option>
+                                <option value="Nữ">Nữ</option>
+                            </select>
+                        </div>
+
+                        <div className="col-md-12">
+                            <label className="form-label label-upload" htmlFor="labelUpload">
+                                <FontAwesomeIcon icon={faFileImport} /> Tải ảnh lên </label>
+                            <input type="file" id="labelUpload" hidden
+                                onChange={(event) => handleUpLoadImage(event)} />
+                        </div>
+
+                        <div className="col-md-12 img-preview">
+                            {previewImage ?
+                                <img src={previewImage} />
+                                :
+                                <span>preview</span>
+                            }
+                        </div>
+                    </form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Đóng
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Lưu
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+}
+
+
 const GiangVien = (props) => {
     // const { MaLop } = useParams();
     const [DSGiangVien, setListGiangVien] = useState([]);
 
+    //     // Lấy dữ liệu từ form, ví dụ:
+    //     const data = {
+    //         tenKH: "Khoá học mới",
+    //         moTa: "Mô tả khoá học mới",
+    //     };
+    //     try {
+    //         let res = await themKH(data);
+    //         if (res.status === 200) {
+    //             // Cập nhật danh sách khoá học sau khi thêm thành công
+    //             fetchDSKhoaHoc();
+    //         } else {
+    //             console.error("Lỗi khi thêm khoá học:", res.statusText);
+    //         }
+    //     } catch (error) {
+    //         console.error("Lỗi khi thêm khoá học:", error.message);
+    //     }
+    // };
     // const [searchData, setSearchData] = useState({
     //     MaLop: MaLop,
     //     MSSV: "",
@@ -131,7 +241,9 @@ const GiangVien = (props) => {
         <>
             <div className="container-fluid app__content">
                 <h2 className="text-center">Danh Sách Giảng Viên</h2>
-                <button>Thêm</button>
+
+                <Example />
+
                 {/* <div className="search">
                     <div className="searchDV">
                         <div className="">

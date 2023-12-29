@@ -184,7 +184,7 @@ code {
   overflow-x: auto;
   color: var(--black);
   font-size: 1.2em;
-  margin-top: 32px;
+  margin-top: 72px;
 }
 
 .table {
@@ -218,4 +218,30 @@ code {
 /* Cài đặt độ rộng cố định cho các cột cố định */
 .table th.fixed-column {
   min-width: 100px;
+}
+
+.modal-add .img-preview {
+  height: 150px;
+  border: 1px dashed #ccc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ccc;
+}
+
+.modal-add .img-preview img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.modal-add .label-upload {
+  background: #eeeeee;
+  border: none;
+  cursor: pointer;
+}
+
+.bt-create {
+  position: absolute;
+  right: 10px;
 }
