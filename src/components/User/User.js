@@ -1,11 +1,3 @@
-// const User = (props) => {
-//     return (
-//         <div>user</div>
-//     )
-// }
-
-// export default User;
-
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
@@ -212,7 +204,7 @@ const User = (props) => {
                             <thead>
                                 <tr>
                                     <th className="table-item ">STT</th>
-                                    <th className="table-item">Tên Đoàn Viên</th>
+                                    <th className="table-item">Tên Học Viên</th>
                                     <th>Ngày sinh</th>
                                     <th>Giới tính</th>
                                     <th>Nơi sinh</th>
@@ -248,7 +240,7 @@ const User = (props) => {
 
                                                 <td>
                                                     <button className="btnOnTable">
-                                                        <FontAwesomeIcon icon={faPenToSquare} /> Chi tiết
+                                                        <FontAwesomeIcon icon={faPenToSquare} /> Chỉnh sửa
                                                     </button>
                                                 </td>
                                             </tr>

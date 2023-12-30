@@ -3,8 +3,32 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import {
+    faRightFromBracket,
+    // faDownload,
+    // faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
+    const navigate = useNavigate();
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const confirmLogout = () => {
+        navigate('/');
+    };
+    const handleShow = (e) => {
+        e.preventDefault();
+        setShow(true);
+    };
+
+
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -26,9 +50,29 @@ const Header = () => {
                             <NavDropdown.Item href="#action/3.6">Lập Trình Python</NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
+                    <Nav>
+                        <NavLink to="/" className="nav-link" onClick={handleShow}>
+                            <FontAwesomeIcon icon={faRightFromBracket} /> Đăng Xuất</NavLink>
+                    </Nav>
                 </Navbar.Collapse>
+
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={confirmLogout}>
+                            OK
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </Navbar>
+
     );
 }
 

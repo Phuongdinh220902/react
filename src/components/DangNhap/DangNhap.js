@@ -1,14 +1,44 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { loginadmin } from "../../services/apiService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faEyeSlash,
+    faEye
+} from "@fortawesome/free-solid-svg-icons";
 
 const DangNhap = (props) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = () => {
-        // Xử lý đăng nhập ở đây, có thể sử dụng email và password
-        console.log("Email:", email);
-        console.log("Password:", password);
+    const [formdata, setFormdata] = useState({
+        email: "",
+        password: "",
+    });
+
+
+    // const [showPassword] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogin = async () => {
+        try {
+            const response = await loginadmin(formdata);
+
+            if (response.status === 200 && response.data.check === "1") {
+                // Chuyển hướng đến trang sau khi đăng nhập thành công
+                navigate('/user');
+            } else {
+                // Xử lý đăng nhập không thành công
+                console.log("Đăng nhập không thành công");
+            }
+        } catch (error) {
+            // Xử lý lỗi từ phía client hoặc server
+            console.error("Lỗi trong quá trình đăng nhập:", error.message);
+        }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        handleLogin();
     };
 
     return (
@@ -23,10 +53,11 @@ const DangNhap = (props) => {
 
                     <div className="login-container">
 
-                        <form action="#" method="get" className="login-form">
-                            <h5 className="form-heading login-heading">
+                        <form className="login-form" onSubmit={handleSubmit}>
+                            {/* <h5 className="form-heading login-heading">
                                 Thông tin đăng nhập
-                            </h5>
+                            </h5> */}
+                            <p> </p>
 
                             <div className="input-box">
                                 {/* <span className="icon">
@@ -36,25 +67,25 @@ const DangNhap = (props) => {
                                     className="login-sodt"
                                     type="text"
                                     name="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    value={formdata.email}
+                                    onChange={(e) => setFormdata({ ...formdata, email: e.target.value })}
                                     required
                                 />
                                 <label>Email</label>
                             </div>
                             <div className="input-box">
-                                {/* <span className="icon">
+                                <span className="icon">
                                     <FontAwesomeIcon
-                                        icon={showPassword ? faEyeSlash : faEye}
+                                        icon={showPassword ? faEye : faEyeSlash}
                                         onClick={() => setShowPassword(!showPassword)}
                                     />
-                                </span> */}
+                                </span>
                                 <input
                                     className="login-pass"
                                     name="password"
                                     type={showPassword ? "text" : "password"}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    value={formdata.password}
+                                    onChange={(e) => setFormdata({ ...formdata, password: e.target.value })}
                                     required
                                 />
                                 <label>Password</label>
@@ -64,7 +95,7 @@ const DangNhap = (props) => {
                             <button
                                 type="submit"
                                 className="btn-submit-login"
-                                onClick={handleLogin}
+                            // onClick={handleLogin(email, password)}
                             >
                                 Đăng nhập
                             </button>

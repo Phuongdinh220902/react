@@ -12,37 +12,71 @@ import {
     // faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-    laydsgv
+    laydsgv, themgv
 } from "../../services/apiService";
 
 
 
 function Example() {
     const [show, setShow] = useState(false);
+    const [tenGV, setTen] = useState('');
+    const [email, setEmail] = useState('');
+    const [sdt, setSdt] = useState('');
+    const [ngaysinh, setNgaysinh] = useState('');
+
+    const [gioitinh, setGioitinh] = useState('Nữ');
+    const [image, setImage] = useState('');
+    const [previewImage, setPreviewImage] = useState('');
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const [tenGV, setTen] = useState("");
-    const [email, setEmail] = useState("");
-    const [sdt, setSdt] = useState("");
-    const [ngaysinh, setNgaysinh] = useState("");
-    const [gioitinh, setGioitinh] = useState("Nữ");
-    const [image, setImage] = useState("");
-    const [previewImage, setPreviewImage] = useState("");
 
     const handleUpLoadImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
-            setPreviewImage(URL.createObjectURL(event.target.files[0]))
-            setImage(event.target.files[0])
-        } else {
-            // setPreviewImage("")
+            setPreviewImage(URL.createObjectURL(event.target.files[0]));
+            setImage(event.target.files[0]);
         }
-    }
+    };
+
+    const handleSave = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('tenGV', tenGV);
+            formData.append('email', email);
+            formData.append('sdt', sdt);
+            formData.append('ngaysinh', ngaysinh);
+            // Ánh xạ giới tính từ frontend sang backend
+            const gioitinhValue = gioitinh === 'Nam' ? 1 : 0;
+            formData.append('gioitinh', gioitinhValue);
+
+            formData.append('tenHA', image);
+
+            // Gửi yêu cầu POST sử dụng axios
+            const response = await themgv();
+
+            if (response.data.check === '1') {
+                console.log('Thêm giảng viên thành công');
+                // Thêm các logic cập nhật UI hoặc chuyển hướng tùy ý
+            } else {
+                console.error('Thêm giảng viên thất bại');
+            }
+        } catch (error) {
+            console.error('Lỗi khi thêm giảng viên:', error.message);
+        } finally {
+            // Sau khi thêm giảng viên xong, đóng modal
+            handleClose();
+        }
+    };
+
 
     return (
         <>
             <Button variant="primary" onClick={handleShow} className="btn-lg bt-create">
                 <FontAwesomeIcon icon={faUserPlus} /> Thêm
+            </Button>
+
+            <Button variant="primary" onClick={handleShow} className="btn-lg bt-sreach">
+                <FontAwesomeIcon icon={faUserPlus} /> Tìm
             </Button>
 
 
@@ -104,7 +138,7 @@ function Example() {
                     <Button variant="secondary" onClick={handleClose}>
                         Đóng
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={handleSave}>
                         Lưu
                     </Button>
                 </Modal.Footer>
